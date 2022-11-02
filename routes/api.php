@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AvailabilityController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PriceCheckController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +17,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('bookings')->name('booking.')->group(function () {
+    Route::get('/', [BookingController::class, 'index']); //PURELY FOR DEMO, would not be available obviously
+    Route::post('/', [BookingController::class, 'store'])->name('store');
+    Route::get('/{booking:booking_reference}', [BookingController::class, 'show'])->name('show');
+    Route::put('/{booking:booking_reference}', [BookingController::class, 'update'])->name('update');
+    Route::delete('/{booking:booking_reference}', [BookingController::class, 'destroy'])->name('delete');
 });
+
+
+
+Route::any('/availability', [AvailabilityController::class, 'index'])->name('check-availability');
+Route::any('/price', [PriceCheckController::class, 'index'])->name('check-price');

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Booking;
+use App\Observers\BookingDeletionObserver;
+use App\Observers\BookingReferenceObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,7 +30,10 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Booking::observe([
+//            BookingDeletionObserver::class,
+            BookingReferenceObserver::class
+        ]);
     }
 
     /**
